@@ -6,3 +6,4 @@ Team members:
 3. Shingirayi O Maziofa 
 4. Tzu-Yi Chiang
 5. Sai Tarun
+6. Leila Damghani
