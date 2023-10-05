@@ -7,3 +7,4 @@ Team members:
 4. Tzu-Yi Chiang
 5. Sai Tarun
 6. Leila Damghani
+7. Yuhao Chen
