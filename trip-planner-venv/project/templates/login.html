@@ -1,0 +1,37 @@
+{%extends 'base.html'%}
+{% load static%}
+
+
+{% block title %}login{%endblock%}
+
+
+{% block content %}
+		<section id='intro' >
+
+			<div class='jumbotron'>
+
+				<div class='container'>
+				
+					<div class="col-md-12">
+
+						
+						<form name='my_form'action="." method="POST" align='center'>
+							{% csrf_token%}
+							<table id='login' align='center'>
+								{{login_form.as_table}}
+							</table>
+<br><br>
+							<input class='btn'  type="submit" value="submit">&nbsp;&nbsp;
+							<input class='btn' align='center' type="reset" value="clears " > 
+	</form>&nbsp;&nbsp;&nbsp;&nbsp;
+						{% if message%}
+						<div align='center'><h6>{{message}}<h6></div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			
+
+		</section>
+
+{%endblock%}
