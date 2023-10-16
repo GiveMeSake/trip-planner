@@ -1,0 +1,58 @@
+{%extends 'base.html'%}
+{% load static%}
+{% block title %}sign up{%endblock%}
+{% block content %}
+<!-- <div class='container'>
+	{% if message%}
+	<div class="alert alert-warning" align="center">{{message}}</div>
+	{% endif %}
+	<form name='my form' align='center' action="." method="POST">
+		{% csrf_token%}
+		<table>
+			{{signup_form.as_table}}
+		</table> -->
+<!-- 		heart
+		{% for m in moods %}
+			<input type="radio" name="mood" value="{{m.status}}">{{m.status}}
+		{% endfor %}
+		<br>
+		<br>
+		<textarea name='user_post' rows=3, cols=70></textarea><br>
+		<label for="user_id">User ID:</label>
+		<input type="text" name="user_id" id="user_id">	
+		<label type="user_pass">Your password:</label>
+		<input type="text" name="user_pass" id="user_pass"><br> -->
+<!-- 
+		<input class='btn' type="submit" value="submit">
+		<input class='btn' type="reset" value="reset" > 
+	</form>
+</div> -->
+
+		<section id='intro' >
+
+			<div class='jumbotron'>
+
+				<div class='container'>
+				
+					<div class="col-md-12">
+
+						
+						<form name='my_form'action="." method="POST">
+							{% csrf_token%}
+							<table id='login'>
+								{{signup_form.as_table}}
+							</table>
+<br><br><br>
+							<input class='btn' type="submit" value="submit">&nbsp;&nbsp;
+							<input class='btn' type="reset" value="clears" > 
+	</form>&nbsp;&nbsp;&nbsp;&nbsp;
+						{% if message%}
+						<div><h6>{{message}}<h6></div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			
+
+		</section>
+{% endblock %}
