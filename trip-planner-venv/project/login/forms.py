@@ -21,24 +21,5 @@ class SignupForm(forms.ModelForm):
 class LoginForm(forms.Form):
 	userid = forms.CharField(label = 'id', max_length=20)
 	password = forms.CharField(label = 'password',widget = forms.PasswordInput())
- 
-class ProfileForm(forms.ModelForm):
 
-	class Meta:
-
-		model = models.UserRigister
-		fields =  ['name', 'height','weight','gender',]
-		widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'height': forms.NumberInput(attrs={'class': 'form-control'}),
-            'weight': forms.NumberInput(attrs={'class': 'form-control'}),
-
-			}
-	def __init__(self, *args, **kwargs):
-		super(ProfileForm, self).__init__(*args, **kwargs)
-
-		self.fields['name'].label 	= 'username'
-		self.fields['height'].label 	= 'height'
-		self.fields['weight'].label 	= 'weight'
-		self.fields['gender'].label 	='sex'
 	
