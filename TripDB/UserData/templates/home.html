@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+
+    <hr>
+    <style>
+        .marquee {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            border: 1px solid #ccc;
+        }
+        .marquee p {
+            display: inline-block;
+            padding: 10px;
+            animation: marquee 10s linear infinite;
+        }
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+    </head>
+    <body>
+    <div class="marquee">
+        <p>Wefix_Zim:(Sir_Smish) Registered Tourist Records </p>
+        
+    </div>
+
+    <hr>
+        
+
+        <h1> Tourist Database</h1> 
+
+        {% for item in all %}  <!--this will loop all the items in the object all--> 
+            <b>School:</b> {{ item.University}}<br/>
+            <b>Name:</b> {{ item.FirstName }}  {{ item.LastName }}<br/>    <!--this will present all the items  we can include item.FirstName to  present only the Firstname --> <!-- in a striaght limne -->
+            <b>Email:</b> {{ item.Email }}<br/>
+            <b>Age:</b> {{ item.Age }}<br/><br>
+            <hr>
+        {% endfor %}
+
+    {% endblock %}
