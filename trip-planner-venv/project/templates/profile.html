@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ username }}'s profile{% endblock %}
+{% block content %}
+
+<style>
+
+
+    .alert {
+        margin-top: 20px;
+    }
+
+
+</style>
+    
+<div class='row'>
+    <div class="col-md-7">
+        <div class='panel panel-default'>
+            <div class='panel-heading' align='center'>
+                <h4>Your Profile</h4>
+            </div>
+        </div>
+    </div>
+</div>
+&nbsp;&nbsp;
+<section id='intro'>
+
+    <div class='jumbotron'>
+
+        <div class='container'>
+
+            <div class="col-md-4" align="center">
+
+                <div>
+                    <a id="img" ><img class='circle' src="/static/images/profile.png" alt="img" width="200" height="200";></a></div>
+
+            </div>
+
+            <div class="col-md-4" align="center">
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <td width="50px">Nickname</td>
+                            <td width=""> <form method="post" action="{% url 'profile' %}">
+                                {% csrf_token %}
+                                <!-- Your input fields here -->
+                                <input type="text" name="name" value="{{ user.name }}">
+                                
+                            
+                        
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Height</td>
+                            <td><input type="text" name="height" value="{{ user.height }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Weight</td>
+                            <td><input type="text" name="weight" value="{{ user.weight }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Gender</td>
+                            <td><input type="text" name="gender" value="{{ user.gender }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Introduce</td>
+                            <td><input type="text" name="intro" value="{{ user.intro }}"></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                <input type="submit" class="btn" value="Edit">
+        
+            </form>
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                     </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
