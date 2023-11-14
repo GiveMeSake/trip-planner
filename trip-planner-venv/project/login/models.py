@@ -12,10 +12,8 @@ class UserRigister(models.Model):
     password = models.CharField(max_length=20, null=False)
     email = models.EmailField()
     name = models.CharField(max_length=20)
-    height = models.PositiveIntegerField(default=170)
-    weight = models.PositiveIntegerField(default=70)
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default='Male')
-    intro = models.CharField(max_length=20, default='')
+    address = models.CharField(max_length=255, default='')
 
     def __str__(self):
         return self.name
