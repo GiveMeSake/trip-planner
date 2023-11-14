@@ -23,10 +23,7 @@ def profile(request):
         # If POST request, update user data and save to DB.
         updated_data = request.POST
         user.name = updated_data.get('name', user.name)
-        user.height = updated_data.get('height', user.height)
-        user.weight = updated_data.get('weight', user.weight)
         user.gender = updated_data.get('gender', user.gender)
-        user.intro = updated_data.get('intro', user.intro)
         user.save()
 
         # Display success message
