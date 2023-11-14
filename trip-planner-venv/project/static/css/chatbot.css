@@ -1,0 +1,415 @@
+:root {
+    --color1: #feae00;
+    --color2: #ff42a1;
+    --color3: #00a1ff;
+    --color4: #60d937;
+    --color5: #ed220d;
+    --color6: #c3e0aa;
+    --bs-white: #fff;
+    --primary-font: "Poppins", sans-serif;
+  }
+  
+  /* body,
+  html {
+    font-family: var(--primary-font);
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    background-color: #ececec;
+  } */
+  
+  .chunkos-chat {
+    max-width: 500px;
+    flex: 0 0 100%;
+    margin: auto;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  }
+  
+  #chatbot_header {
+    font-size: 20px;
+    background-color: var(--color3);
+    border-radius: 8px 8px 0 0;
+    color: var(--bs-white);
+    padding: 15px 30px;
+    font-weight: 700;
+  }
+  
+  .chat-app {
+    background-color: rgba(255, 255, 255, 1);
+    padding: 20px 30px 0;
+    position: relative;
+    height: calc(120vh - 400px);
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+  }
+  
+  .chat-app::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  
+  .chat-app .chat-inner {
+    position: relative;
+    margin-bottom: 50px;
+  }
+  
+  .message-wrapper {
+    position: relative;
+    display: grid;
+  }
+  
+  .message-wrapper img.profile-pic {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0px;
+  }
+  
+  .message-wrapper img.profile-pic.left {
+    left: 0;
+  }
+  
+  .message-wrapper img.profile-pic.right {
+    right: 0;
+  }
+  
+  .message-wrapper .chat-bubble.left,
+  .message-wrapper .options {
+    margin-left: 65px;
+  }
+  
+  .message-wrapper .chat-bubble.right {
+    margin-right: 65px;
+  }
+  
+  .message-wrapper .chat-bubble {
+    background-color: var(--color3);
+    color: var(--bs-white);
+    margin-bottom: 0.5rem;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  .message-wrapper .chat-bubble.left {
+    border-top-left-radius: 3px;
+    margin-right: auto;
+  }
+  
+  .message-wrapper .chat-bubble.right {
+    border-bottom-right-radius: 3px;
+    margin-left: auto;
+  }
+  
+  .message-wrapper .chat-bubble.img,
+  .message-wrapper .chat-bubble.video {
+    background-color: transparent;
+    padding: 0;
+  }
+  
+  .message-wrapper .chat-bubble.img img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .message-wrapper .options {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 10px;
+    margin-top: 8px;
+    max-width: 450px;
+  }
+  
+  .message-wrapper .options .option-label {
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+    padding: 6px 12px;
+    line-height: 1;
+    display: inline-block;
+    border: 2px solid var(--color3);
+    cursor: pointer;
+  }
+  
+  .message-wrapper .options.choose-choice div {
+    font-size: 18px;
+    padding: 8px 40px;
+    min-width: 100px;
+  }
+  
+  .message-wrapper .options .option-label:hover {
+    background-color: var(--color3);
+    color: var(--bs-white);
+  }
+  
+  .message-wrapper .options img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .message-wrapper .options.choose-choice div:first-child {
+    border-color: var(--color4);
+    background-color: var(--color4);
+    color: #fff;
+  }
+  
+  .message-wrapper .options.choose-choice div:last-child {
+    background-color: var(--color5);
+    border-color: var(--color5);
+    color: #fff;
+  }
+  
+  .message-wrapper .chat-bubble.video .video-list {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    row-gap: 1rem;
+    column-gap: 1rem;
+  }
+  
+  .message-wrapper .chat-bubble.video .video-list figure {
+    margin: 0;
+  }
+  
+  .message-wrapper .chat-bubble.video .video-list .video-banner {
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .message-wrapper .chat-bubble.video .video-list .video-banner img:first-child {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .message-wrapper .chat-bubble.video .video-list .video-banner img:last-child {
+    left: 0;
+    top: 0;
+    z-index: 1;
+  }
+  
+  .mfp-iframe-scaler .mfp-bottom-bar {
+    margin-top: 16px;
+  }
+  
+  button.load-more {
+    max-width: 130px;
+    display: inline-block;
+    padding: 0.625rem 1rem;
+    text-align: center;
+    font-weight: 700;
+    border-radius: 1.5rem;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+    background-color: var(--color3);
+    color: var(--bs-white);
+    transition: all 0.2s ease-out 0.05s;
+    border: 0px;
+    margin-left: 80px;
+    font-size: 14px;
+    margin-bottom: 1rem;
+  }
+  
+  .typing-indicator {
+    background-color: var(--color3);
+    will-change: transform;
+    width: 80px;
+    border-radius: 50px;
+    padding: 15px 20px;
+    display: table;
+    margin-bottom: 1rem;
+    margin-left: 65px;
+    position: relative;
+    -webkit-animation: 2s bulge infinite ease-out;
+    animation: 2s bulge infinite ease-out;
+  }
+  
+  .typing-indicator::before,
+  .typing-indicator::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: var(--color3);
+  }
+  
+  .typing-indicator::after {
+    height: 10px;
+    width: 10px;
+    left: -10px;
+    bottom: -10px;
+  }
+  
+  .typing-indicator span {
+    height: 8px;
+    width: 8px;
+    float: left;
+    margin: 0 1px;
+    background-color: var(--bs-white);
+    display: block;
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  
+  .typing-indicator span:nth-of-type(1) {
+    -webkit-animation: 1s blink infinite 0.3333s;
+    animation: 1s blink infinite 0.3333s;
+  }
+  
+  .typing-indicator span:nth-of-type(2) {
+    -webkit-animation: 1s blink infinite 0.6666s;
+    animation: 1s blink infinite 0.6666s;
+  }
+  
+  .typing-indicator span:nth-of-type(3) {
+    -webkit-animation: 1s blink infinite 0.9999s;
+    animation: 1s blink infinite 0.9999s;
+  }
+  
+  @-webkit-keyframes blink {
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes blink {
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  @-webkit-keyframes bulge {
+    50% {
+      -webkit-transform: scale(1.05);
+      transform: scale(1.05);
+    }
+  }
+  
+  @keyframes bulge {
+    50% {
+      -webkit-transform: scale(1.05);
+      transform: scale(1.05);
+    }
+  }
+  
+  .supaScrollBox {
+    width: 100%;
+    overflow-x: scroll;
+    white-space: nowrap;
+    font-size: 0;
+    padding: 20px 0;
+  }
+  
+  .supaScrollBox.disabled {
+    position: relative;
+  }
+  
+  .supaScrollBox.disabled:after {
+    position: absolute;
+    content: "";
+    background: transparent;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  
+  .item {
+    display: inline-block;
+    width: 200px;
+    height: 110px;
+    margin: 0 10px;
+    background: #377bb6;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+  }
+  
+  .item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("http://showmeproject.com/chunkos/assets/image/frame.svg");
+    background-size: 100%;
+  }
+  
+  /* Optional Scrollbar Styles */
+  .supaScrollBox::-webkit-scrollbar {
+    height: 5px;
+  }
+  
+  .supaScrollBox::-webkit-scrollbar-track {
+    background-color: transparent;
+    outline: none;
+  }
+  
+  .supaScrollBox::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 6px;
+  }
+  
+  #user-input-form {
+    display: flex;
+    padding: 15px 30px;
+    background-color: var(--bs-white);
+    border-top: 1px solid #ccc; /* Adjust if necessary to match the chat design */
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* Gives an inset effect */
+    border-radius: 0 0 8px 8px;
+  }
+  
+  #user-input-form input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 2px solid var(--color3); /* This should match the chat bubble color */
+    border-radius: 20px;
+    margin-right: 10px;
+    font-size: 16px; /* Adjust font-size as needed */
+  }
+  
+  #user-input-form button {
+    padding: 10px 20px;
+    background-color: var(--color3); /* This should match the header background */
+    border: none;
+    border-radius: 20px;
+    color: var(--bs-white);
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #user-input-form button:hover {
+    background-color: darken(var(--color3), 50%); /* Slightly darken the button on hover */
+    color: var(--color3);
+    border: 2px solid var(--color3);
+  }
+  
+  /* You might want to add some media queries to make sure your design is responsive */
+  @media (max-width: 768px) {
+    #user-input-form {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    #user-input-form input[type="text"] {
+      margin-right: 0;
+      margin-bottom: 10px; /* Adds some space between the input and the button on small screens */
+    }
+  
+    #user-input-form button {
+      width: 100%;
+    }
+  }
