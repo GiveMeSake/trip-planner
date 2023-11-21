@@ -50,6 +50,7 @@ def profile(request):
         updated_data = request.POST
         user.name = updated_data.get('name', user.name)
         user.gender = updated_data.get('gender', user.gender)
+        user.address = updated_data.get('address', user.address)
         user.save()
 
         # Display success message

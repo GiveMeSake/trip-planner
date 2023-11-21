@@ -1,0 +1,44 @@
+[
+    {
+      "id": 1,
+      "text": "",
+      "messageType": "",
+      "imageUrl": "Ellie-Talks.gif",
+      "nextMessageId": "",
+      "texts": [
+        {
+          "id": 1,
+          "text": "Hi, I'm Trip Planner!"
+        },
+        {
+          "id": 2,
+          "text": "I can help you plan your trip!"
+        },
+        {
+          "id": 3,
+          "text": "What is your destination country?"
+        }
+      ],
+      "optionType": "name",
+      "options": []
+    },
+    {
+      "id": 3,
+      "text": "",
+      "messageType": "",
+      "imageUrl": "Ellie-Talks.gif",
+      "nextMessageId": "",
+      "texts": [
+        {
+          "id": 1,
+          "text": "Maybe we can cheer you up."
+        },
+        {
+          "id": 2,
+          "text": "Hope to see you in the future!"
+        }
+      ],
+      "optionType": "leave",
+      "options": []
+    }
+  ]

@@ -46,9 +46,6 @@
                                 {% csrf_token %}
                                 <!-- Your input fields here -->
                                 <input type="text" name="name" value="{{ user.name }}">
-                                
-                            
-                        
                             </td>
                         </tr>
                         <tr>
@@ -57,7 +54,7 @@
                         </tr>
                         <tr id="pac-container">
                             <td>Address</td>
-                            <td><input type="text" id="pac-input" name="intro" value="{{ user.address }}"></td>
+                            <td><input type="text" id="pac-input" name="address" value="{{ user.address }}"></td>
                         </tr>
                         <div id="map"></div>
                         <div id="infowindow-content">
