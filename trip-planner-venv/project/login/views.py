@@ -9,6 +9,32 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 # Profile view
+def result_page(request):
+    
+    # fake data
+    username = request.session.get('username', None)
+    recommended_spots = [
+        {
+            'name': 'Sunset Beach',
+            'description': 'A beautiful beach known for its stunning sunsets.',
+            'image_url': 'https://images.pexels.com/photos/3106799/pexels-photo-3106799.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+        },
+        {
+            'name': 'Mountain Peak',
+            'description': 'A challenging but rewarding mountain hike with breathtaking views.',
+            'image_url': 'https://as1.ftcdn.net/v2/jpg/05/65/76/92/1000_F_565769257_yaHRp8Pts9SjlnSzHKNrQs264KoIsiwE.jpg'
+        },
+        {
+            'name': 'Historic Old Town',
+            'description': 'Explore the rich history of the old town, with its classic architecture and charming streets.',
+            'image_url': 'https://upload.wikimedia.org/wikipedia/commons/a/a5/King_Street_restaurants.jpg'
+        }
+  
+    ]
+
+
+    return render(request, 'result_page.html', {'recommended_spots': recommended_spots,'username': username},)
+
 def profile(request):
     # Check if username is in session. If not, redirect to root.
     if 'username' not in request.session:

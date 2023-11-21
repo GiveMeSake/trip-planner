@@ -29,4 +29,5 @@ urlpatterns = [
     path('signup/', login.signup, name = "signup"),
     path(r'^captcha',include('captcha.urls')),
     path('profile/', login.profile, name='profile'),
+    path('result_page/',login.result_page, name ='result_page')
 ]
