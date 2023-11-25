@@ -1,8 +1,14 @@
-//@ts-nocheck
+
 "use strict";
 (function ($) {
-    console.log('Loaded');
     var container;
+
+    function fetchJsonData(callback) {
+        $.get("/static/js/questions.json", function(dataJSON) {
+            callback(dataJSON);
+        });
+    }
+
     $.fn.chunkosChat = function (options) {
         // override options with user preferences
         var settings = $.extend({
@@ -42,7 +48,8 @@
     }
 
     function generateMessageHTML(container, messages, m, delay) {
-        var $template = $(`<div class="message-wrapper"><div class="chat-bubble left img"><img src="${m.imageUrl}" alt="" width="60" height="60" class="img-fluid"></div></div>`);
+        var planner_imageUrl = "/static/images/planner_avatar.gif"
+        var $template = $(`<div class="message-wrapper"><div class="chat-bubble left img"><img src="${planner_imageUrl}" alt="" width="60" height="60" class="img-fluid"></div></div>`);
         m?.texts.forEach(el => {
             let $textElm = $(`<div class="chat-bubble left">${el?.text}</div>`);
             $template.append($textElm);
@@ -63,35 +70,57 @@
 
     function processUserMessage(userMessage) {
 
-        $.get("questions.json", function(dataJSON) { 
+        fetchJsonData(function(dataJSON) {
             var preDefinedMessage = findMessageInJsonById(dataJSON, 3);
             if (preDefinedMessage) {
                 generateMessageHTML(container, dataJSON, preDefinedMessage, 1500)
-            }
-
-            
+            }       
         });
     }
 
     $(function () {
-        $.get("questions.json", function (dataJSON) {
+        fetchJsonData(function(dataJSON) {
             $('#chat-app').chunkosChat({
                 dataJSON: dataJSON,
             });
-
         });
     });
 
     $('#user-input-form').on('submit', function(e) {
         e.preventDefault(); // Prevents the default form submission action
         var userMessage = $('#user-message').val().trim();
-
+        var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         if (userMessage !== '') {
                 // Append the message to the chat window or handle it as required
-                var userMessageHTML = `<div class="message-wrapper"><div class="chat-bubble right">${userMessage}</div></div>`;
-                $('.chat-app .chat-inner').append(userMessageHTML);
+                validateUserInput(csrfToken, "Location", userMessage) 
+
+                var user_imageUrl = "/static/images/user_avatar.png"
+                var $msgTemplate = $(`<div class="message-wrapper"><div class="chat-bubble right img"><img src="${user_imageUrl}" alt="" width="60" height="60" class="img-fluid"></div></div>`);
+                var userMessageHTML = `<div class="chat-bubble right">${userMessage}</div>`;
+                $msgTemplate.append(userMessageHTML);
+                container.children('.chat-inner').append($msgTemplate);
                 processUserMessage(userMessage);
                 $('#user-message').val(''); // Clear the input field after sending the message
         }
     });
+
+    function validateUserInput(csrfToken, field, userInput) {
+        $.ajax({
+            type: 'POST',
+            url: '/input_validation/', // URL to the Django view
+            data: {
+                'validation_field' : field,
+                'input_to_validate': userInput,
+                'csrfmiddlewaretoken': csrfToken // CSRF token
+            },
+            success: function(response) {
+                // response will contain 'True' or 'False' 
+                console.log('Validation result:', response);
+            },
+            error: function(error) {
+                console.log('Error:', error);
+            }
+        });
+    }
+
 }(jQuery));

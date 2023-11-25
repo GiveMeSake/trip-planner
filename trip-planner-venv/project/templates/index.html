@@ -38,6 +38,7 @@
 								</div>
 								<!-- User input form -->
 								<form id="user-input-form">
+									{% csrf_token%}
 									<input type="text" id="user-message" placeholder="Type your message here...">
 									<button type="submit">Send</button>
 								</form>
@@ -49,7 +50,7 @@
 			
 
 		</section>
-
+		<script src="/static/js/chatbot.js"></script>
 
 
 				<div class='container' padding='100px'>
