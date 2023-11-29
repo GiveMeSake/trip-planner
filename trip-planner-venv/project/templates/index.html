@@ -2,7 +2,7 @@
 {% load static%}
 
 
-	{% block title %}pairing{%endblock%}
+	{% block title %}TripPlanner{%endblock%}
 
 
 {% block content %}
@@ -12,19 +12,37 @@
 			<div class='jumbotron'>
 
 				<div class='container'>
-				
-					<div class="col-md-12">
-						<h1>THE BEST DATING WEBSITE EVER</h1>
-						<p class="lead">COME JOIN US!</p>
-						{%if username%}
-						<a class="btn" href="/pairing/">Start Make Your Trip </a>
-						{%else%}
-						<a class="btn" href="/signup/">Sign Up</a>
+					<div class="row">
+						<div class="col-md-8">
+							<h1>YOUR TRAVEL BUDDY</h1>
+							<p class="lead">COME JOIN US!</p>
+							{%if username%}
+							<a class="btn" href="/result_page/">Start Make Your Trip </a>
+							{%else%}
+							<a class="btn" href="/signup/">Sign Up</a>
+							
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					
-						<a class="btn" href="/login/">Sign In</a>
-						{%endif%}
+							<a class="btn" href="/login/">Sign In</a>
+							{%endif%}
+						</div>
+						<div class="col-md-4">
+							<div class="chunkos-chat">
+								<div id="chatbot_header">
+									<div class="flex-wrapper">
+										Chatbot
+									</div>
+								</div>
+								<div class="chat-app" id="chat-app">
+									<!-- Chat content will be loaded here -->
+								</div>
+								<!-- User input form -->
+								<form id="user-input-form">
+									<input type="text" id="user-message" placeholder="Type your message here...">
+									<button type="submit">Send</button>
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -39,18 +57,18 @@
 						<div class="col-md-4">
 							<img  src="/static/images/love1.png" width='300'><br>
 							<h4  align="center">Explore Your Passions</h4>
-							<h7>It easy to chat up a match when you know you have something in common. The pairing app lets you add Passions to your profile and connect with people who share your interests.</h7>
+							<h7>Go beyond conventional tourism and delve into their interests, whether it's art, history, cuisine, adventure, or any other passion</h7>
 						</div>
 						<div class="col-md-4">
 							<img  src="/static/images/love2.png" width='300'><br>
-							<h4  align="center">Connect With People</h4>
-							<h7>Go beyond your distance settings and chat with people around the world with our Passport™ feature. All it takes is an upgrade to a pairing subscription to be able to match anywhere from everywhere.</h7>
+							<h4  align="center">Find The Right Place</h4>
+							<h7>We're dedicated to helping you find the right place to travel, tailored to your unique needs and desires.</h7>
 						</div>
 						
 						<div class="col-md-4">
 						<img  src="/static/images/love3.png" width='300'><br>
-							<h4  align="center">Date Safer</h4>
-							<h7>We all eager to meet new people IRL, but dating during COVID-19 means putting your safety first. When six feet apart is not enough, Face to Face lets you video chat with your match so you can keep the connection going online.</h7>
+							<h4  align="center">Travel Safe</h4>
+							<h7>Just enjoy the trip, we provided all the information you need</h7>
 						</div>
 					</div>
 				</div>

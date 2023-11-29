@@ -46,28 +46,21 @@
                                 {% csrf_token %}
                                 <!-- Your input fields here -->
                                 <input type="text" name="name" value="{{ user.name }}">
-                                
-                            
-                        
                             </td>
-                        </tr>
-                        <tr>
-                            <td>Height</td>
-                            <td><input type="text" name="height" value="{{ user.height }}"></td>
-                        </tr>
-                        <tr>
-                            <td>Weight</td>
-                            <td><input type="text" name="weight" value="{{ user.weight }}"></td>
                         </tr>
                         <tr>
                             <td>Gender</td>
                             <td><input type="text" name="gender" value="{{ user.gender }}"></td>
                         </tr>
-                        <tr>
-                            <td>Introduce</td>
-                            <td><input type="text" name="intro" value="{{ user.intro }}"></td>
+                        <tr id="pac-container">
+                            <td>Address</td>
+                            <td><input type="text" id="pac-input" name="address" value="{{ user.address }}"></td>
                         </tr>
-                        
+                        <div id="map"></div>
+                        <div id="infowindow-content">
+                          <span id="place-name" class="title"></span><br />
+                          <span id="place-address"></span>
+                        </div>
                     </tbody>
                 </table>
                 <input type="submit" class="btn" value="Edit">
