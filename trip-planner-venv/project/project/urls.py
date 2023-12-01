@@ -29,5 +29,7 @@ urlpatterns = [
     path('signup/', login.signup, name = "signup"),
     path(r'^captcha',include('captcha.urls')),
     path('profile/', login.profile, name='profile'),
-    path('result_page/',login.result_page, name ='result_page')
+    path('result_page/',login.result_page, name ='result_page'),
+    path('view_spot/<int:spot_id>/', login.view_spot, name='view_spot'),
+
 ]

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Travel Recommendations{% endblock %}
+
+{% block content %}
+<style>
+    .half-width-background {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        width: 50%;
+        margin: 20px auto 0;
+        height: 300px; 
+    }
+
+    .container h2 {
+        text-align: center;
+    }
+</style>
+
+
+<section id='intro' class='recommendations-section'>
+    <div class='jumbotron'>
+        <div class='container'>
+            <h2>City</h2>
+            <div class='text-content half-width-background'>
+                <p>detail text</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
