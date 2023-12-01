@@ -5,6 +5,22 @@
 
 {% block content %}
 <style>
+    .button {
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 5px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        background-color: #007bff;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .button-delete {
+        background-color: #dc3545;
+    }
     .recommendations-section {
         padding: 20px 0;
     }
@@ -47,8 +63,7 @@
 <section id='intro' class='recommendations-section'>
     <div class='jumbotron'>
         <div class='container'>
-            <h1>Travel Recommendations</h1>
-            <p class="lead">Based on your preferences, we have found the following destinations:</p>
+            <h1 align = center>Travel Histroy</h1>
 
             <div class='row'>
                 {% for spot in recommended_spots %}
@@ -58,7 +73,8 @@
                         <div class="recommendation-content">
                             <h5 class="recommendation-title">{{ spot.name }}</h5>
                             <p class="recommendation-description">{{ spot.description }}</p>
-                            <!-- More details can be added here -->
+                            
+                            <a class="btn" href="{% url 'view_spot' spot.id %}">More detail </a>
                         </div>
                     </div>
                 </div>

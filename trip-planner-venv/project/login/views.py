@@ -8,9 +8,17 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+
+def view_spot(request, spot_id):
+    if 'username' not in request.session:
+        return HttpResponseRedirect('/')
+    username = request.session.get('username', None)
+    return render(request, 'history_detail.html', {})
+
 # Profile view
 def result_page(request):
-    
+    if 'username' not in request.session:
+        return HttpResponseRedirect('/')
     # fake data
     username = request.session.get('username', None)
     recommended_spots = [
@@ -32,7 +40,9 @@ def result_page(request):
   
     ]
 
-
+    #give every spot an ID
+    for index, spot in enumerate(recommended_spots):
+        spot['id'] = index + 1
     return render(request, 'result_page.html', {'recommended_spots': recommended_spots,'username': username},)
 
 def profile(request):
