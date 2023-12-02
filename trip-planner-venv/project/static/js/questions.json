@@ -1,11 +1,8 @@
 [
     {
       "id": 1,
-      "text": "",
-      "messageType": "",
-      "imageUrl": "/static/images/planner_avatar.gif",
       "nextMessageId": "",
-      "texts": [
+      "questions": [
         {
           "id": 1,
           "text": "Hi, I'm Trip Planner!"
@@ -16,29 +13,132 @@
         },
         {
           "id": 3,
-          "text": "What is your destination country?"
+          "text": "Please answer the following questions correctly!, then I can recommend you some interesting trip planns"
+        },
+        {
+          "id": 4,
+          "text": "Then I can recommend you some interesting trip planning!!!"
         }
-      ],
-      "optionType": "name",
-      "options": []
+      ]
     },
     {
-      "id": 3,
-      "text": "",
-      "messageType": "",
-      "imageUrl": "/static/images/user_avatar.png",
+      "id": 2,
       "nextMessageId": "",
-      "texts": [
+      "validationText": "Is {input_to_validate} a valid and unique location in the United States? Answer 0 for no, 1 for yes",
+      "errors": [
         {
           "id": 1,
-          "text": "Maybe we can cheer you up."
+          "text": "{input_to_validate} is a not valid and unique location in the United States."
         },
         {
           "id": 2,
-          "text": "Hope to see you in the future!"
+          "text": "Please enter a valid location name!"
         }
       ],
-      "optionType": "leave",
-      "options": []
+      "questions": [
+        {
+          "id": 1,
+          "text": "Where do you want to start your trip from?"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nextMessageId": "",
+      "validationText": "Is {input_to_validate} a valid and unique location in the United States? Answer 0 for no, 1 for yes",
+      "errors": [
+        {
+          "id": 1,
+          "text": "{input_to_validate} is a not valid and unique location in the United States."
+        },
+        {
+          "id": 2,
+          "text": "Please enter a valid location name!"
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "text": "Where are you planning to visit?"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nextMessageId": "",
+      "validationText": "Is {input_to_validate} a valid number of days for a trip? Answer 0 for no, 1 for yes",
+      "errors": [
+        {
+          "id": 1,
+          "text": "{input_to_validate} is a not valid number of days for a trip."
+        },
+        {
+          "id": 2,
+          "text": "Please enter a valid number of days!"
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "text": "How many days you want to go on the trip?"
+        }
+      ]
+    },
+    {
+    "id": 5,
+    "nextMessageId": "",
+    "validationText": "Is {input_to_validate} a valid number of people for a trip? Answer 0 for no, 1 for yes",
+    "errors": [
+      {
+        "id": 1,
+        "text": "{input_to_validate} is not a valid number of people for a trip."
+      },
+      {
+        "id": 2,
+        "text": "Please enter a valid number of people!"
+      }
+    ],
+    "questions": [
+      {
+        "id": 1,
+        "text": "How many people are you planning for?"
+      }
+    ]
+    },
+    {
+      "id": 6,
+      "nextMessageId": "",
+      "validationText": "Is {input_to_validate} a valid and reasonable budget for a trip? Answer 0 for no, 1 for yes",
+      "errors": [
+        {
+          "id": 1,
+          "text": "{input_to_validate} is not a valid or reasonable budget for a trip."
+        },
+        {
+          "id": 2,
+          "text": "Please enter a valid and reasonable budget for a trip!"
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "text": "How much is your expected budget?"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nextMessageId": "0",
+      "validationText": "Create a trip plan from {answers[1]} to {answers[2]} for {answers[3]} days with a return trip with a budget of {answers[4]} for {answers[5]} people. Mention specific transport with names and budget, popular local activities to catch up and popular places to eat.",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Ok, Now you will be redirected to a page showing the trip plans!!!"
+        },
+        {
+          "id": 2,
+          "text": "Wish to see you again!!!"
+        }
+      ]
     }
   ]

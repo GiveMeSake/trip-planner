@@ -31,5 +31,6 @@ urlpatterns = [
     path(r'^captcha',include('captcha.urls')),
     path('profile/', login.profile, name='profile'),
     path('result_page/',login.result_page, name ='result_page'),
-    path('input_validation/',chatbot.input_validation, name ='input_validation')
+    path('input_validation/',chatbot.input_validation, name ='input_validation'),
+    path('show_results/',chatbot.show_results, name ='show_results')
 ]

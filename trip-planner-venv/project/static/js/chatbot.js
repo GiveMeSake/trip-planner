@@ -2,6 +2,9 @@
 "use strict";
 (function ($) {
     var container;
+    var messageID = 1;
+    let answers = [""];
+    var delay = 1500;
 
     function fetchJsonData(callback) {
         $.get("/static/js/questions.json", function(dataJSON) {
@@ -12,20 +15,24 @@
     $.fn.chunkosChat = function (options) {
         // override options with user preferences
         var settings = $.extend({
-            delay: 1500,
             autoStart: true,
             startMessageId: 1,
             dataJSON: null
         }, options);
         container = $(this);
 
-        startChat(container, settings.dataJSON, settings.startMessageId, settings.delay)
+        startChat(container, settings.dataJSON, delay)
     }
 
-    function startChat(container, data, startId, delay) {
+    function startChat(container, data, delay) {
         container.html('<div class="chat-inner"></div>');
-        var message = findMessageInJsonById(data, startId);
-        generateMessageHTML(container, data, message, delay);
+        var message = findMessageInJsonById(data, messageID);
+        generateMessageHTML(container, message,"questions", delay);
+        messageID++;
+        setTimeout(function() {
+            message = findMessageInJsonById(data, messageID);
+            generateMessageHTML(container, message, "questions", delay);
+        }, delay); 
     }
 
     function findMessageInJsonById(data, id) {
@@ -47,34 +54,57 @@
         }
     }
 
-    function generateMessageHTML(container, messages, m, delay) {
+    function generateMessageHTML(container, message, field, delay) {
         var planner_imageUrl = "/static/images/planner_avatar.gif"
         var $template = $(`<div class="message-wrapper"><div class="chat-bubble left img"><img src="${planner_imageUrl}" alt="" width="60" height="60" class="img-fluid"></div></div>`);
-        m?.texts.forEach(el => {
-            let $textElm = $(`<div class="chat-bubble left">${el?.text}</div>`);
-            $template.append($textElm);
-        })        
+        // console.log(message.questions)
+        if (field === 'questions') {
+            message?.questions.forEach(el => {
+                let $questionElm = $(`<div class="chat-bubble left">${el?.text}</div>`);
+                $template.append($questionElm);
+            })  
+        } else if (field === 'errors') {
+            message?.errors.forEach(el => {
+                let $errorElm = $(`<div class="chat-bubble left error">${el?.text}</div>`);
+                $template.append($errorElm);
+            });
+        }      
         toggleLoader("show", container);
         container.scrollTop(container.prop('scrollHeight'));
         setTimeout(function () {
             toggleLoader("hide", container);
             container.children('.chat-inner').append($template);
             container.scrollTop(container.prop('scrollHeight'));
-            if (m.nextMessageId != "") {
-                var nextMessage = findMessageInJsonById(messages, m.nextMessageId)
-                generateMessageHTML(container, messages, nextMessage, delay)
-            }
         }, delay);
         // end delay
     }
 
-    function processUserMessage(userMessage) {
+    function processUserMessage(userMessage, isValid, csrfToken) {
+        fetchJsonData(function(dataJSON){
+            if (isValid == 1){
+                messageID++;
+                answers.push(userMessage);
+                message = findMessageInJsonById(dataJSON, messageID);
+                if(message.nextMessageId == "0"){
+                    var finalPrompt = message.validationText
+                    answers.forEach((answer, index) => {
+                        finalPrompt = finalPrompt.replace(`{answers[${index}]}`, answer);
+                    });
+                    setTimeout(function () {
+                        showResultPage(csrfToken, finalPrompt)
+                    }, delay*2);
+                }
+                generateMessageHTML(container, message, "questions", delay);
+            } else {
+                var message = findMessageInJsonById(dataJSON, messageID);
+                message.errors[0].text = message.errors[0].text.replace("{input_to_validate}", userMessage);
+                // console.log(message.errors[0].text)
+                generateMessageHTML(container, message, "errors", delay);
+                setTimeout(function () {
+                    generateMessageHTML(container, message, "questions", delay);
+                }, delay);
+            }
 
-        fetchJsonData(function(dataJSON) {
-            var preDefinedMessage = findMessageInJsonById(dataJSON, 3);
-            if (preDefinedMessage) {
-                generateMessageHTML(container, dataJSON, preDefinedMessage, 1500)
-            }       
         });
     }
 
@@ -91,34 +121,56 @@
         var userMessage = $('#user-message').val().trim();
         var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         if (userMessage !== '') {
-                // Append the message to the chat window or handle it as required
-                validateUserInput(csrfToken, "Location", userMessage) 
-
-                var user_imageUrl = "/static/images/user_avatar.png"
-                var $msgTemplate = $(`<div class="message-wrapper"><div class="chat-bubble right img"><img src="${user_imageUrl}" alt="" width="60" height="60" class="img-fluid"></div></div>`);
-                var userMessageHTML = `<div class="chat-bubble right">${userMessage}</div>`;
-                $msgTemplate.append(userMessageHTML);
-                container.children('.chat-inner').append($msgTemplate);
-                processUserMessage(userMessage);
-                $('#user-message').val(''); // Clear the input field after sending the message
+            var user_imageUrl = "/static/images/user_avatar.png"
+            var $msgTemplate = $(`<div class="message-wrapper"><div class="chat-bubble right img"><img src="${user_imageUrl}" alt="" width="60" height="60" class="img-fluid"></div></div>`);
+            var userMessageHTML = `<div class="chat-bubble right">${userMessage}</div>`;
+            $('#user-message').val(''); // Clear the input field after sending the message
+            $msgTemplate.append(userMessageHTML);
+            container.children('.chat-inner').append($msgTemplate);
+            fetchJsonData(function(dataJSON){
+                var message = findMessageInJsonById(dataJSON, messageID);
+                message.validationText = message.validationText.replace("{input_to_validate}", userMessage);
+                validateUserInput(csrfToken, "Location", message.validationText, function(isValid) {
+                    processUserMessage(userMessage, isValid, csrfToken);
+                });               
+            });
+            
         }
     });
 
-    function validateUserInput(csrfToken, field, userInput) {
+    function showResultPage(csrfToken, finalPrompt){
+        // console.log(finalPrompt)
+        $.ajax({
+            type: 'POST',
+            url: '/show_results/', // URL to the Django view
+            data: {
+                'finalPrompt': finalPrompt,
+                'csrfmiddlewaretoken': csrfToken // CSRF token
+            },
+            success: function(response) {
+                document.documentElement.innerHTML = response;
+            },
+            error: function(error) {
+                console.log('Error:', error);
+            }
+        });
+    }
+    
+    function validateUserInput(csrfToken, field, validationText, callback) {
         $.ajax({
             type: 'POST',
             url: '/input_validation/', // URL to the Django view
             data: {
                 'validation_field' : field,
-                'input_to_validate': userInput,
+                'validationText': validationText,
                 'csrfmiddlewaretoken': csrfToken // CSRF token
             },
             success: function(response) {
-                // response will contain 'True' or 'False' 
-                console.log('Validation result:', response);
+                callback(response.isValid);
             },
             error: function(error) {
                 console.log('Error:', error);
+                callback(false);
             }
         });
     }
