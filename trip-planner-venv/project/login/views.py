@@ -11,6 +11,7 @@ from django.conf import settings
 import requests
 import json
 import pprint
+import re
 
 def make_curl_request(location):
     # API Key
@@ -63,13 +64,44 @@ def make_curl_request(location):
         # Handle the error
         print(f"Error: {response.status_code} - {response.text}")
 
+def format_trip_plan(final_result):
+
+    formatted_result = re.sub(r"(Day \d+:|Total)", r"</p><p><strong>\1</strong>", final_result)
+
+
+    formatted_result = re.sub(r'\s-\s', '<br>- ', formatted_result)
+
+
+    formatted_result = f"<p>{formatted_result}</p>"
+
+
+    formatted_result = formatted_result.replace("</p><p>", "<p>", 1)
+
+    return formatted_result
+
+
+
 
 
 def view_spot(request, spot_id):
     if 'username' not in request.session:
         return HttpResponseRedirect('/')
     username = request.session.get('username', None)
-    return render(request, 'history_detail.html', {})
+
+    history = request.session.get('search_historys', [])
+    spot_detail = next((spot for spot in history if str(spot['id']) == str(spot_id)), None)
+
+    if not spot_detail:
+        return HttpResponseRedirect('/some-error-page/')
+
+ 
+    if 'final_result' in spot_detail:
+        spot_detail['formatted_final_result'] = format_trip_plan(spot_detail['final_result'])
+
+    return render(request, 'history_detail.html', {
+        'username': username,
+        'spot': spot_detail
+    })
 
 # Profile view
 def result_page(request):
@@ -77,12 +109,14 @@ def result_page(request):
         return HttpResponseRedirect('/')
     username = request.session.get('username', None)
 
-
+    final_result = request.session.get('final_result')
     destination = request.session.get('destination')
     numOfPeople = request.session.get('numOfPeople')
 
     if 'destination' in request.session:
         del request.session['destination']
+    if 'final_result' in request.session:
+        del request.session['final_result']
     if 'numOfPeople' in request.session:
         del request.session['numOfPeople']
 
@@ -93,6 +127,7 @@ def result_page(request):
     if(destination != None):
         request.session['search_historys'].append({
             'name': destination,
+            'final_result': final_result,
             'description': f'{numOfPeople} people',
             'image_url': make_curl_request(destination)
         })

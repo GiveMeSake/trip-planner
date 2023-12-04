@@ -5,29 +5,109 @@
 
 {% block content %}
 <style>
-    .half-width-background {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-        width: 50%;
-        margin: 20px auto 0;
-        height: 300px; 
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+    footer {
+        position: relative;
+        width: 100%;
+    }
+    
+    .button {
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 5px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        background-color: #007bff;
+        text-decoration: none;
+        cursor: pointer;
     }
 
-    .container h2 {
-        text-align: center;
+    .button-delete {
+        background-color: #dc3545;
     }
+    .recommendations-section {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    .jumbotron {
+        margin: 0; 
+
+    }
+
+.container {
+    padding-top: 70px; 
+}
+
+.row {
+    margin: 0;
+}
+    .recommendation-card {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        background-color: white;
+    }
+
+    .recommendation-image {
+        width: 200px; 
+        height: 200px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        object-fit: cover; 
+    }
+
+    .recommendation-content {
+        padding: 15px;
+        flex-grow: 1;
+    }
+
+    .recommendation-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .recommendation-description {
+        font-size: 14px;
+        color: #666;
+    }
+    .text-content {
+        max-height: 500px; 
+        overflow-y: auto;
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    
+    .text-content p {
+        margin-bottom: 10px;
+    }
+    
 </style>
 
-
-<section id='intro' class='recommendations-section'>
-    <div class='jumbotron'>
-        <div class='container'>
-            <h2>City</h2>
-            <div class='text-content half-width-background'>
-                <p>detail text</p>
+    <div class="container">
+        <div class="row">
+            <div class='container'>
+                <h2>{{ spot.name }}</h2>
+                <div class='text-content half-width-background'>
+                  
+                    {{ spot.formatted_final_result|safe }}
+                </div>
             </div>
         </div>
     </div>
-</section>
+  
+         
 {% endblock %}
+

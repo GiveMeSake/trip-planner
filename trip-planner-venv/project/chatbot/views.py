@@ -4,7 +4,7 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import render
 from django.conf import settings
 import openai
-
+import re
 def input_validation(request):
     validationText = request.POST.get('validationText', '')
     
@@ -28,10 +28,14 @@ def show_results(request):
         final_prompt = request.POST.get('finalPrompt', '')
     
         openai.api_key = settings.OPENAI_API_KEY
-        #get destination and people
-        parts = final_prompt.split('for')
-        destination = parts[0].split('to')[1].split(' ')[1]
-        numOfPeople = parts[1].split(' ')[1].strip()
+
+        match = re.search(r'to\s+(.*?)\s+for', final_prompt)
+        if match:
+            destination = match.group(1).strip()
+        match = re.search(r'for\s+(\d+)\s+people', final_prompt)
+        if match:
+            numOfPeople = match.group(1).strip()
+
         request.session['destination'] = destination
         request.session['numOfPeople'] = numOfPeople
         print(destination)
@@ -45,8 +49,7 @@ def show_results(request):
         )
 
         final_result = completion.choices[0].message.content
-        print(final_result)
-
+        request.session['final_result'] = final_result
         # Redirect to another page after processing
         return render(request, 'result_page.html') # Replace with the URL you want to redirect to
 
