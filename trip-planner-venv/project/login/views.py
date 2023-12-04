@@ -74,28 +74,36 @@ def view_spot(request, spot_id):
 def result_page(request):
     if 'username' not in request.session:
         return HttpResponseRedirect('/')
-    # fake data
     username = request.session.get('username', None)
 
-        #from post
+
     destination = request.session.get('destination')
     numOfPeople = request.session.get('numOfPeople')
 
+    if 'destination' in request.session:
+        del request.session['destination']
+    if 'numOfPeople' in request.session:
+        del request.session['numOfPeople']
+
     if 'search_historys' not in request.session:
         request.session['search_historys'] = []
-    request.session['search_historys'].append({
-        'name': destination,
-        'description': f'{numOfPeople} people',
-        'image_url': make_curl_request("destination")
-    })
+
+    #ensure none repeat appear
+    if(destination != None):
+        request.session['search_historys'].append({
+            'name': destination,
+            'description': f'{numOfPeople} people',
+            'image_url': make_curl_request(destination)
+        })
     request.session.modified = True
+
+
+    # get all of the data
     history = request.session.get('search_historys', [])
-
-
-    #give every spot an ID
     for index, spot in enumerate(history):
         spot['id'] = index + 1
-    return render(request, 'result_page.html', {'history':history,'username': username},)
+
+    return render(request, 'result_page.html', {'history': history, 'username': username})
 
 def profile(request):
     # Check if username is in session. If not, redirect to root.

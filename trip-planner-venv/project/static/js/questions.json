@@ -129,7 +129,7 @@
     {
       "id": 7,
       "nextMessageId": "0",
-      "validationText": "Create a trip plan from {answers[1]} to {answers[2]} for {answers[3]} days with a return trip with a budget of {answers[4]} for {answers[5]} people. Mention specific transport with names and budget, popular local activities to catch up and popular places to eat.",
+      "validationText": "Create a trip plan from {answers[1]} to {answers[2]} for {answers[3]} days with a return trip with a budget of {answers[5]} for {answers[4]} people. Mention specific transport with names and budget, popular local activities to catch up and popular places to eat.",
       "questions": [
         {
           "id": 1,
