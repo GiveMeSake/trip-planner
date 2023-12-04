@@ -7,13 +7,14 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.conf import settings
 import requests
 import json
 import pprint
 
 def make_curl_request(location):
     # API Key
-    api_key = "AIzaSyAh_xUoUaAUmGZyyGdXcmt13Kzk8rukyL4"
+    api_key = settings.GOOGLE_API_KEY
 
     # Google Places API endpoint for place id
     url_place_id = "https://places.googleapis.com/v1/places:searchText"

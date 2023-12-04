@@ -2,12 +2,13 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.shortcuts import render
+from django.conf import settings
 import openai
 
 def input_validation(request):
     validationText = request.POST.get('validationText', '')
     
-    openai.api_key = "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"
+    openai.api_key = settings.OPENAI_API_KEY
 
     print(validationText)
     completion = openai.chat.completions.create(
@@ -26,7 +27,7 @@ def show_results(request):
         # Parse the JSON data from the request
         final_prompt = request.POST.get('finalPrompt', '')
     
-        openai.api_key = "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"
+        openai.api_key = settings.OPENAI_API_KEY
         #get destination and people
         parts = final_prompt.split('for')
         destination = parts[0].split('to')[1].split(' ')[1]
