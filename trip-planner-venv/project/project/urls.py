@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,re_path, include
 import login.views as login
+import chatbot.views as chatbot
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
@@ -31,5 +32,6 @@ urlpatterns = [
     path('profile/', login.profile, name='profile'),
     path('result_page/',login.result_page, name ='result_page'),
     path('view_spot/<int:spot_id>/', login.view_spot, name='view_spot'),
-
+    path('input_validation/',chatbot.input_validation, name ='input_validation'),
+    path('show_results/',chatbot.show_results, name ='show_results'),
 ]
