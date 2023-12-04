@@ -77,31 +77,33 @@
   
   .message-wrapper .chat-bubble.left,
   .message-wrapper .options {
-    margin-left: 65px;
+    margin-left: 5px;
   }
   
   .message-wrapper .chat-bubble.right {
-    margin-right: 65px;
+    margin-right: 5px;
   }
   
   .message-wrapper .chat-bubble {
-    background-color: var(--color3);
+    
     color: var(--bs-white);
     margin-bottom: 0.5rem;
     padding: 8px 16px;
     border-radius: 12px;
     font-size: 1rem;
     flex: 0 0 50%;
-    max-width: 50%;
+    max-width: 80%;
   }
   
   .message-wrapper .chat-bubble.left {
-    border-top-left-radius: 3px;
+    background-color: var(--color3);
+    border-top-left-radius: 1px;
     margin-right: auto;
   }
   
   .message-wrapper .chat-bubble.right {
-    border-bottom-right-radius: 3px;
+    background-color: var(--color1);
+    border-top-right-radius: 1px;
     margin-left: auto;
   }
   
@@ -342,7 +344,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("http://showmeproject.com/chunkos/assets/image/frame.svg");
+    background-image: url("");
     background-size: 100%;
   }
   

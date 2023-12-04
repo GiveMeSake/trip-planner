@@ -5,6 +5,17 @@
 
 {% block content %}
 <style>
+    header {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 10;
+	}
+    footer {
+        position: relative;
+        width: 100%;
+    }
+    
     .button {
         display: inline-block;
         padding: 10px 15px;
@@ -22,9 +33,13 @@
         background-color: #dc3545;
     }
     .recommendations-section {
-        padding: 20px 0;
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
+    .jumbotron {
+        margin: 0; 
 
+    }
     .recommendation-card {
         display: flex;
         align-items: center;
@@ -60,13 +75,12 @@
     }
 </style>
 
-<section id='intro' class='recommendations-section'>
-    <div class='jumbotron'>
-        <div class='container'>
-            <h1 align = center>Travel Histroy</h1>
+
+        <h1 align="center" style="margin-top: 50px;">Travel History</h1>
+
 
             <div class='row'>
-                {% for spot in recommended_spots %}
+                {% for spot in history %}
                 <div class="col-md-6">
                     <div class="recommendation-card">
                         <img src="{{ spot.image_url }}" alt="Image of {{ spot.name }}" class="recommendation-image">
@@ -79,10 +93,6 @@
                     </div>
                 </div>
                 {% endfor %}
-            </div>
-
-        </div>
-    </div>
-</section>
-
+  
+         
 {% endblock %}

@@ -7,43 +7,139 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.conf import settings
+import requests
+import json
+import pprint
+import re
+
+def make_curl_request(location):
+    # API Key
+    api_key = settings.GOOGLE_API_KEY
+
+    # Google Places API endpoint for place id
+    url_place_id = "https://places.googleapis.com/v1/places:searchText"
+
+    # Your curl-like parameters
+    headers = {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': api_key,
+        'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress',
+    }
+
+    data = {
+        'textQuery': location
+    }
+    response = requests.post(url_place_id, headers=headers, data=json.dumps(data))
+
+    if response.status_code == 200:
+        # Successful request, you can now handle the response data
+        places_data = response.json()
+        # Process 'places_data' as needed
+        if (places_data['places'][0]['id']):
+            place_id = places_data['places'][0]['id']
+            print(place_id)
+            # Google Places API endpoint for place details
+            url_place_details = f'https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&key={api_key}'
+            response = requests.post(url_place_details, headers={'Content-Type': 'application/json'})
+            if response.status_code == 200:
+                places_details = response.json()
+                # print(places_details)
+                pprint.pprint(places_details)
+                if "photos" in places_details['result']:
+                    photo_reference = places_details['result']['photos'][3]['photo_reference']
+                    photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&maxheight=400&photoreference={photo_reference}&key={api_key}"
+                    return photo_url
+                else:
+                    # Handle the error
+                    print(f"Error: Place photos not found")
+                    # TODOadd a default picture
+            else:
+                # Handle the error
+                print(f"Error: Place ID not found")
+        else:  
+            # Handle the error
+            print(f"Error: Place ID not found")
+    else:
+        # Handle the error
+        print(f"Error: {response.status_code} - {response.text}")
+
+def format_trip_plan(final_result):
+
+    formatted_result = re.sub(r"(Day \d+:|Total)", r"</p><p><strong>\1</strong>", final_result)
+
+
+    formatted_result = re.sub(r'\s-\s', '<br>- ', formatted_result)
+
+
+    formatted_result = f"<p>{formatted_result}</p>"
+
+
+    formatted_result = formatted_result.replace("</p><p>", "<p>", 1)
+
+    return formatted_result
+
+
+
 
 
 def view_spot(request, spot_id):
     if 'username' not in request.session:
         return HttpResponseRedirect('/')
     username = request.session.get('username', None)
-    return render(request, 'history_detail.html', {})
+
+    history = request.session.get('search_historys', [])
+    spot_detail = next((spot for spot in history if str(spot['id']) == str(spot_id)), None)
+
+    if not spot_detail:
+        return HttpResponseRedirect('/some-error-page/')
+
+ 
+    if 'final_result' in spot_detail:
+        spot_detail['formatted_final_result'] = format_trip_plan(spot_detail['final_result'])
+
+    return render(request, 'history_detail.html', {
+        'username': username,
+        'spot': spot_detail
+    })
 
 # Profile view
 def result_page(request):
     if 'username' not in request.session:
         return HttpResponseRedirect('/')
-    # fake data
     username = request.session.get('username', None)
-    recommended_spots = [
-        {
-            'name': 'Sunset Beach',
-            'description': 'A beautiful beach known for its stunning sunsets.',
-            'image_url': 'https://images.pexels.com/photos/3106799/pexels-photo-3106799.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-        },
-        {
-            'name': 'Mountain Peak',
-            'description': 'A challenging but rewarding mountain hike with breathtaking views.',
-            'image_url': 'https://as1.ftcdn.net/v2/jpg/05/65/76/92/1000_F_565769257_yaHRp8Pts9SjlnSzHKNrQs264KoIsiwE.jpg'
-        },
-        {
-            'name': 'Historic Old Town',
-            'description': 'Explore the rich history of the old town, with its classic architecture and charming streets.',
-            'image_url': 'https://upload.wikimedia.org/wikipedia/commons/a/a5/King_Street_restaurants.jpg'
-        }
-  
-    ]
 
-    #give every spot an ID
-    for index, spot in enumerate(recommended_spots):
+    final_result = request.session.get('final_result')
+    destination = request.session.get('destination')
+    numOfPeople = request.session.get('numOfPeople')
+
+    if 'destination' in request.session:
+        del request.session['destination']
+    if 'final_result' in request.session:
+        del request.session['final_result']
+    if 'numOfPeople' in request.session:
+        del request.session['numOfPeople']
+
+    if 'search_historys' not in request.session:
+        request.session['search_historys'] = []
+
+    #ensure none repeat appear
+    if(destination != None):
+        request.session['search_historys'].append({
+            'name': destination,
+            'final_result': final_result,
+            'description': f'{numOfPeople} people',
+            'image_url': make_curl_request(destination)
+        })
+    request.session.modified = True
+
+
+    # get all of the data
+    history = request.session.get('search_historys', [])
+    for index, spot in enumerate(history):
         spot['id'] = index + 1
-    return render(request, 'result_page.html', {'recommended_spots': recommended_spots,'username': username},)
+
+    return render(request, 'result_page.html', {'history': history, 'username': username})
 
 def profile(request):
     # Check if username is in session. If not, redirect to root.
