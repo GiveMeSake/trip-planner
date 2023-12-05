@@ -116,8 +116,6 @@ def searchHistory(request):
         del request.session['final_result']
     if 'numOfPeople' in request.session:
         del request.session['numOfPeople']
-    if 'days' in request.session:
-        del request.session['days']
     if 'budget' in request.session:
         del request.session['budget']
     if 'search_historys' not in request.session:

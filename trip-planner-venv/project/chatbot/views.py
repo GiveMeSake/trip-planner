@@ -83,23 +83,22 @@ def show_results(request):
     
         openai.api_key = settings.OPENAI_API_KEY
 
-        match = re.search(r'to\s+(.*?)\s+for', final_prompt)
+        match = re.search(r'to\s+(.*?)\s+from', final_prompt)
         if match:
             destination = match.group(1).strip()
+
         match = re.search(r'for\s+(\d+)\s+people', final_prompt)
         if match:
             numOfPeople = match.group(1).strip()
+
         match = re.search(r'of\s+(\d+)\s+for', final_prompt)
         if match:
             budget = match.group(1).strip()
-        match = re.search(r'for\s+(\d+)\s+days', final_prompt)
-        if match:
-            days = match.group(1).strip()
+
 
         request.session['destination'] = destination
         request.session['numOfPeople'] = numOfPeople
         request.session['budget'] = budget
-        request.session['days'] = days
 
         completion = openai.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -116,7 +115,6 @@ def show_results(request):
         new_spot = {
             'id': spot_id,
             'name': destination,
-            'days': days,
             'budget': budget,
             'final_result': final_result,
             'image_url': make_curl_request(destination),
