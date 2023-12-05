@@ -33,7 +33,7 @@
         background-color: #dc3545;
     }
     .recommendations-section {
-        padding-top: 50px;
+        padding-top: 30px;
         padding-bottom: 50px;
     }
     .jumbotron {
@@ -42,12 +42,21 @@
     }
 
 .container {
-    padding-top: 70px; 
+    padding-top: 30px; 
 }
 
 .row {
     margin: 0;
+}   
+ header {
+    position: relative; /* Changed from 'fixed' to 'relative' */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
+    .jumbotron{
+        background-image: url("/static/images/background.png");
+    }
     .recommendation-card {
         display: flex;
         align-items: center;
@@ -95,7 +104,7 @@
     }
     
 </style>
-
+<div class='jumbotron'>
     <div class="container">
         <div class="row">
             <div class='container'>
@@ -107,7 +116,7 @@
             </div>
         </div>
     </div>
-  
+</div>
          
 {% endblock %}
 

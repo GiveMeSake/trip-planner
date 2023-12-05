@@ -30,7 +30,7 @@ urlpatterns = [
     path('signup/', login.signup, name = "signup"),
     path(r'^captcha',include('captcha.urls')),
     path('profile/', login.profile, name='profile'),
-    path('result_page/',login.result_page, name ='result_page'),
+    path('searchHistory/',login.searchHistory, name ='searchHistory'),
     path('view_spot/<int:spot_id>/', login.view_spot, name='view_spot'),
     path('input_validation/',chatbot.input_validation, name ='input_validation'),
     path('show_results/',chatbot.show_results, name ='show_results'),
