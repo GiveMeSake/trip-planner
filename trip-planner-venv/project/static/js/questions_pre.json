@@ -66,47 +66,26 @@
     {
       "id": 4,
       "nextMessageId": "",
-      "validationText": "Is {input_to_validate} a valid date (date format is MM/DD/YYYY)? Answer 0 for no, 1 for yes",
+      "validationText": "Is {input_to_validate} a valid number of days for a trip? Answer 0 for no, 1 for yes",
       "errors": [
         {
           "id": 1,
-          "text": "The date format is not valid."
+          "text": "{input_to_validate} is a not valid number of days for a trip."
         },
         {
           "id": 2,
-          "text": "The valid date format is MM/DD/YYYY"
+          "text": "Please enter a valid number of days!"
         }
       ],
       "questions": [
         {
           "id": 1,
-          "text": "Which date do you want to start the trip?"
+          "text": "How many days you want to go on the trip?"
         }
       ]
     },
     {
-      "id": 5,
-      "nextMessageId": "",
-      "validationText": "Is {input_to_validate} a valid date (date format is MM/DD/YYYY)? Answer 0 for no, 1 for yes",
-      "errors": [
-        {
-          "id": 1,
-          "text": "The date format is not valid."
-        },
-        {
-          "id": 2,
-          "text": "The valid date format is MM/DD/YYYY"
-        }
-      ],
-      "questions": [
-        {
-          "id": 1,
-          "text": "Which date is the end date of the trip?"
-        }
-      ]
-    },
-    {
-    "id": 6,
+    "id": 5,
     "nextMessageId": "",
     "validationText": "Is {input_to_validate} a valid number of people for a trip? Answer 0 for no, 1 for yes",
     "errors": [
@@ -127,7 +106,7 @@
     ]
     },
     {
-      "id": 7,
+      "id": 65,
       "nextMessageId": "",
       "validationText": "Is {input_to_validate} a valid and reasonable budget for a trip? Answer 0 for no, 1 for yes",
       "errors": [
@@ -150,7 +129,7 @@
     {
       "id": 8,
       "nextMessageId": "0",
-      "validationText": "Create a trip plan from {answers[1]} to {answers[2]} from date {answers[3]} to {answers[4]} with a return trip with a budget of {answers[6]} for {answers[5]} people. Mention specific transport with names and budget, popular local activities to catch up and popular places to eat.",
+      "validationText": "Create a trip plan from {answers[1]} to {answers[2]} for {answers[3]} days with a return trip with a budget of {answers[5]} for {answers[4]} people. Mention specific transport with names and budget, popular local activities to catch up and popular places to eat.",
       "questions": [
         {
           "id": 1,

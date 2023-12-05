@@ -90,9 +90,7 @@
                     answers.forEach((answer, index) => {
                         finalPrompt = finalPrompt.replace(`{answers[${index}]}`, answer);
                     });
-                    setTimeout(function () {
-                        showResultPage(csrfToken, finalPrompt)
-                    }, delay*2);
+                    showResultPage(csrfToken, finalPrompt);
                 }
                 generateMessageHTML(container, message, "questions", delay);
             } else {
@@ -103,9 +101,17 @@
                 setTimeout(function () {
                     generateMessageHTML(container, message, "questions", delay);
                 }, delay);
+            }      
+            if(messageID == 4 || messageID == 5) {
+                console.log(messageID)
+                activateDatepicker();
             }
-
+            else {
+                deactivateDatepicker();
+            }     
         });
+
+        
     }
 
     $(function () {
@@ -130,9 +136,9 @@
             fetchJsonData(function(dataJSON){
                 var message = findMessageInJsonById(dataJSON, messageID);
                 message.validationText = message.validationText.replace("{input_to_validate}", userMessage);
-                validateUserInput(csrfToken, "Location", message.validationText, function(isValid) {
-                    processUserMessage(userMessage, isValid, csrfToken);
-                });               
+                    validateUserInput(csrfToken, "Location", message.validationText, function(isValid) {
+                        processUserMessage(userMessage, isValid, csrfToken);
+                    });           
             });
             
         }
@@ -174,5 +180,39 @@
             }
         });
     }
+
+    function initializeDatepicker() {
+        $("#user-message").datepicker();
+    }
+
+    function activateDatepicker() {
+        if (!$('#user-message').hasClass('hasDatepicker')) {
+            $("#user-message").datepicker();
+        }
+    }
+
+    function deactivateDatepicker() {
+        $("#user-message").datepicker('destroy');
+    }
+
+    function isValidDateFormat(dateString) {
+        // Regular expression for the date format MM/DD/YYYY
+        const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+
+        // Test the date string against the regular expression
+        if (regex.test(dateString)) {
+            // Further check to ensure the date is valid (e.g., not February 30th)
+            const parts = dateString.split('/');
+            const month = parseInt(parts[0], 10);
+            const day = parseInt(parts[1], 10);
+            const year = parseInt(parts[2], 10);
+            
+            if (regex.test(dateString))
+                return 1;
+            } else {
+                // Date does not match format
+                return 0;
+            }
+        }
 
 }(jQuery));
