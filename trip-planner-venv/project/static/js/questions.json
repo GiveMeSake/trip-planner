@@ -143,7 +143,7 @@
       "questions": [
         {
           "id": 1,
-          "text": "How much is your expected budget?"
+          "text": "How much is your expected budget (in USD)?"
         }
       ]
     },
