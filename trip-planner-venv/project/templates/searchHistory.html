@@ -1,0 +1,127 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Travel Recommendations{% endblock %}
+
+{% block content %}
+<style>
+    .recommendation-card {
+        display: flex;
+        align-items: flex-start; /* Align items to the top */
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        background-color: white;
+    }
+    .recommendation-main-content {
+        padding: 15px;
+        flex-grow: 1;
+        margin-top: 30px; /* Adjust this value as needed */
+    }
+    
+    
+    .recommendation-main-content, .recommendation-info {
+        padding: 15px; /* Ensure consistent padding */
+        margin-top: 20px; 
+
+    }
+    
+    .recommendation-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align text to the start (left) */
+        border-left: 1px solid #ddd;
+    }
+    
+    .recommendation-info p {
+        margin: 5px 0;
+    }
+    
+    .button {
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 15px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        background-color: #007bff;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .button-delete {
+        background-color: #dc3545;
+    }
+    .recommendations-section {
+        padding: 20px 0;
+    }
+    header {
+        position: relative; /* Changed from 'fixed' to 'relative' */
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+    .recommendation-image {
+        width: 200px; 
+        height: 200px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        object-fit: cover; 
+    }
+
+    .recommendation-content {
+        padding: 15px;
+        flex-grow: 1;
+    }
+
+    .recommendation-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .recommendation-description {
+        font-size: 14px;
+        color: #666;
+    }
+    .jumbotron {
+        padding-top: 20px; /* Reduced top padding */
+        /* Other styles... */
+    }
+    
+</style>
+
+<section id='intro' class='recommendations-section'>
+    <div class='jumbotron'>
+        <h1 align = center>Searching Histroy</h1>
+        <div class='container'>
+          
+
+            <div class='row'>
+                {% for spot in history %}
+                <div class="col-md-6">
+                    <div class="recommendation-card">
+                        <img src="{{ spot.image_url }}" alt="Image of {{ spot.name }}" class="recommendation-image">
+                        <div class="recommendation-main-content">
+                            <h2 class="recommendation-title">{{ spot.name }}</h2>
+                            <br>
+                            <a class="btn" href="{% url 'view_spot' spot.id %}">More detail </a>
+                        </div>
+                        <div class="recommendation-info">
+                            <p><strong>People:</strong> {{ spot.description }}</p>
+                            <p><strong>Days:</strong> {{ spot.days }}</p>
+                            <p><strong>Budget:</strong> ${{ spot.budget }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

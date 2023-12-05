@@ -47,7 +47,7 @@ def make_curl_request(location):
                 # print(places_details)
                 pprint.pprint(places_details)
                 if "photos" in places_details['result']:
-                    photo_reference = places_details['result']['photos'][3]['photo_reference']
+                    photo_reference = places_details['result']['photos'][0]['photo_reference']
                     photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&maxheight=400&photoreference={photo_reference}&key={api_key}"
                     return photo_url
                 else:
@@ -84,12 +84,13 @@ def format_trip_plan(final_result):
 
 
 def view_spot(request, spot_id):
+    username = request.session.get('username', None)
     if 'username' not in request.session:
         return HttpResponseRedirect('/')
-    username = request.session.get('username', None)
 
+    
     history = request.session.get('search_historys', [])
-    spot_detail = next((spot for spot in history if str(spot['id']) == str(spot_id)), None)
+    spot_detail = next((spot for spot in history if spot['id'] == spot_id), None)
 
     if not spot_detail:
         return HttpResponseRedirect('/some-error-page/')
@@ -103,34 +104,27 @@ def view_spot(request, spot_id):
         'spot': spot_detail
     })
 
-# Profile view
-def result_page(request):
+
+def searchHistory(request):
+    
     if 'username' not in request.session:
         return HttpResponseRedirect('/')
     username = request.session.get('username', None)
-
-    final_result = request.session.get('final_result')
-    destination = request.session.get('destination')
-    numOfPeople = request.session.get('numOfPeople')
-
     if 'destination' in request.session:
         del request.session['destination']
     if 'final_result' in request.session:
         del request.session['final_result']
     if 'numOfPeople' in request.session:
         del request.session['numOfPeople']
-
+    if 'days' in request.session:
+        del request.session['days']
+    if 'budget' in request.session:
+        del request.session['budget']
     if 'search_historys' not in request.session:
         request.session['search_historys'] = []
 
     #ensure none repeat appear
-    if(destination != None):
-        request.session['search_historys'].append({
-            'name': destination,
-            'final_result': final_result,
-            'description': f'{numOfPeople} people',
-            'image_url': make_curl_request(destination)
-        })
+
     request.session.modified = True
 
 
@@ -139,7 +133,7 @@ def result_page(request):
     for index, spot in enumerate(history):
         spot['id'] = index + 1
 
-    return render(request, 'result_page.html', {'history': history, 'username': username})
+    return render(request, 'searchHistory.html', {'history': history, 'username': username})
 
 def profile(request):
     # Check if username is in session. If not, redirect to root.
